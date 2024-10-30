@@ -1,6 +1,6 @@
 import sqlite3
 
-class Estudiante:
+class Profesor:
     def __init__(self, nombre, apellido, edad):
         self.nombre = nombre
         self.apellido = apellido

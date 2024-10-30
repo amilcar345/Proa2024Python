@@ -1,9 +1,8 @@
- import sqlite3
- 
-from estudiante import Estudiante
-from profesor import Profesor
-from materia import Materia
-from calificacion import Calificacion
+
+from clsEstudiante import Estudiante
+from clsProfesor import Profesor
+from clsMateria import Materia
+from clsCalificacion import Calificacion
 
 def mostrar_menu():
     print("\nSistema Escolar")
