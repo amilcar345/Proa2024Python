@@ -1,41 +1,39 @@
 import sqlite3
 
 class Estudiante:
-    def __init__(self, nombre, apellido, edad):
+    def __init__(self, legajo_id, dni, nombre, edad, fecha_nacimiento, curso, estado, email):
+        self.legajo_id = legajo_id
+        self.dni = dni
         self.nombre = nombre
-        self.apellido = apellido
         self.edad = edad
+        self.fecha_nacimiento = fecha_nacimiento
+        self.curso = curso
+        self.estado = estado
+        self.email = email
 
-    def guardar(self):
-        conexion = sqlite3.connect('sistema_escolar.db')
+    def agregar(self):
+        conexion = sqlite3.connect('escuela.db')
         cursor = conexion.cursor()
-        cursor.execute('INSERT INTO Estudiante (nombre, apellido, edad) VALUES (?, ?, ?)', 
-                       (self.nombre, self.apellido, self.edad))
+        cursor.execute('''
+            INSERT INTO estudiante (legajo_id, dni, nombre, edad, fecha_nacimiento, curso, estado, email)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (self.legajo_id, self.dni, self.nombre, self.edad, self.fecha_nacimiento, self.curso, self.estado, self.email))
         conexion.commit()
         conexion.close()
 
-    @staticmethod
-    def modificar(id, nombre, apellido, edad):
-        conexion = sqlite3.connect('sistema_escolar.db')
+    def modificar(self):
+        conexion = sqlite3.connect('escuela.db')
         cursor = conexion.cursor()
-        cursor.execute('UPDATE Estudiante SET nombre = ?, apellido = ?, edad = ? WHERE id = ?', 
-                       (nombre, apellido, edad, id))
+        cursor.execute('''
+            UPDATE estudiante SET dni = ?, nombre = ?, edad = ?, fecha_nacimiento = ?, curso = ?, estado = ?, email = ?
+            WHERE legajo_id = ?
+        ''', (self.dni, self.nombre, self.edad, self.fecha_nacimiento, self.curso, self.estado, self.email, self.legajo_id))
         conexion.commit()
         conexion.close()
 
-    @staticmethod
-    def eliminar(id):
-        conexion = sqlite3.connect('sistema_escolar.db')
+    def eliminar(self):
+        conexion = sqlite3.connect('escuela.db')
         cursor = conexion.cursor()
-        cursor.execute('DELETE FROM Estudiante WHERE id = ?', (id,))
+        cursor.execute('DELETE FROM estudiante WHERE legajo_id = ?', (self.legajo_id,))
         conexion.commit()
         conexion.close()
-
-    @staticmethod
-    def consultar():
-        conexion = sqlite3.connect('sistema_escolar.db')
-        cursor = conexion.cursor()
-        cursor.execute('SELECT * FROM Estudiante')
-        estudiantes = cursor.fetchall()
-        conexion.close()
-        return estudiantes
